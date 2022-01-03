@@ -4,8 +4,9 @@ App to display and print logs while at sea using a Bluetooth ticker printer. Log
 and printed by the crew using minimal effort but ensuring attention to what is logged.
 
 User Interface:
-![Screenshot_20220103-151626_PaperLog](https://user-images.githubusercontent.com/17744402/147944013-da6ef402-8fcd-431a-bb80-fdf7b3a924ee.jpg)
+![Screenshot_20220103-151626_PaperLog](https://user-images.githubusercontent.com/17744402/147944364-693bcc04-794b-4375-917f-ea401d84a551.jpg)
+
 
 Output:
-![20220103_151536](https://user-images.githubusercontent.com/17744402/147943973-a5fb34d5-b4c7-437c-8d1d-2d1d7fa6989e.jpg)
 
+![20220103_151536](https://user-images.githubusercontent.com/17744402/147944711-5ae88618-17c7-4732-8541-d5b0d60ee400.jpg)
