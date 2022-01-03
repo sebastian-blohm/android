@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.LogPageFragment">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.fragment.app.FragmentContainerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/latlong_fragment_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="hm.blo.paperlog.ui.main.LatLongFragment" />
+
+        <androidx.fragment.app.FragmentContainerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/preassure_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:ui_template="Preassure %s hpa"
+            app:print_template="[L]Preassure [R]%s hpa"
+            app:data_type="Double"
+            app:increment="1.0"
+            app:initial="1000"
+            android:name="hm.blo.paperlog.ui.main.UpDownFragment" />
+        <androidx.fragment.app.FragmentContainerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/heading_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:ui_template="Heading %s"
+            app:increment="22.5"
+            app:data_type="CompassCourse"
+            app:print_template="[L]Heading [R]%s"
+            android:name="hm.blo.paperlog.ui.main.UpDownFragment" />
+        <androidx.fragment.app.FragmentContainerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/windspeed_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:ui_template="Wind %s kn"
+            app:increment="1.0"
+            app:initial="5"
+            app:print_template="[L]Wind [R]%s kn"
+            app:data_type="Double"
+            android:name="hm.blo.paperlog.ui.main.UpDownFragment" />
+        <androidx.fragment.app.FragmentContainerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/winddirection_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:ui_template="Wind from %s"
+            app:increment="45"
+            app:data_type="CompassCourse"
+            app:print_template="[L]Wind from [R]%s"
+            android:name="hm.blo.paperlog.ui.main.UpDownFragment" />
+
+        <androidx.fragment.app.FragmentContainerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/visibility_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:ui_template="Visibility %s nm"
+            app:increment="1"
+            app:initial="5"
+            app:data_type="Double"
+            app:print_template="[L]Visibility [R]%s nm"
+            android:name="hm.blo.paperlog.ui.main.UpDownFragment" />
+
+        <TextView
+            android:id="@+id/section_label"
+            android:text="I'm a TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:background="@color/white"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintTop_creator="1" />
+    </LinearLayout>
+</ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

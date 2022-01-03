@@ -1,0 +1,78 @@
+package hm.blo.paperlog.ui.main;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import hm.blo.paperlog.model.Printable;
+import hm.blo.paperlog.model.Printing;
+
+/**
+ * View model of a fragment displaying log data.
+ * Values can be changed according to fixed increments.
+ * Data will be provided to printer if changed.
+ */
+public class UpDownViewModel extends ViewModel implements Printable {
+    @Override
+    public String getPrintString() {
+        String valueString = this.valueToString();
+        mToOutput.setValue(false);
+        return String.format(this.printTemplate, valueString);
+    }
+
+    @Override
+    public boolean hasContent() {
+        return mToOutput.getValue().booleanValue();
+    }
+
+    public enum DataType {Double, CompassCourse}
+
+    protected MutableLiveData<Double> mValue = new MutableLiveData<Double>();
+    protected MutableLiveData<Boolean> mToOutput = new MutableLiveData<Boolean>();
+    private DataType type;
+    private String uiTemplate;
+    protected double increment;
+    private String printTemplate;
+
+
+    public void initialize(String typeName, String uiTemplate, double increment, double initial, String printTemplate) {
+        this.type = Enum.valueOf(DataType.class, typeName);
+        this.uiTemplate = uiTemplate;
+        this.increment = increment;
+        this.printTemplate = printTemplate;
+        mValue.setValue(initial);
+        mToOutput.setValue(false);
+        Printing.addPrintable(this);
+    }
+
+    public void up() {
+        this.update(true);
+    }
+
+    public void down() {
+        this.update(false);
+    }
+
+    public LiveData<Double> getValue() {
+        return mValue;
+    }
+
+    public LiveData<Boolean> getToOutput() {
+        return this.mToOutput;
+    }
+
+    protected void update(boolean up) {
+        double update = up ? this.increment : -this.increment;
+        mValue.setValue(mValue.getValue().doubleValue() + update);
+        this.mToOutput.setValue(true);
+    }
+
+    protected String valueToString(){
+        return mValue.getValue().toString();
+    }
+
+    public String asUiString() {
+        String valueString = this.valueToString();
+        return String.format(this.uiTemplate, valueString);
+    }
+}

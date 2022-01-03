@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">PaperLog</string>
+    <string name="tab_text_1">Trip</string>
+    <string name="tab_text_2">Config</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <!-- define your attribute name and type -->
+    <attr name="data_type" format="string|reference" />
+    <attr name="ui_template" format="string|reference" />
+    <attr name="increment" format="float|reference" />
+    <attr name="initial" format="float|reference" />
+    <attr name="print_template" format="string|reference" />
+
+    <!-- now define which arguments your fragment is gonna have (can be more then one) -->
+    <!-- the convention is "FragmentClassName_MembersInjector" -->
+    <declare-styleable name="UpDownFragment_MembersInjector">
+        <attr name="data_type" />
+        <attr name="ui_template" />
+        <attr name="increment" />
+        <attr name="initial" />
+        <attr name="print_template" />
+
+    </declare-styleable>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
