@@ -11,13 +11,23 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -33,6 +43,7 @@ import hm.blo.paperlog.model.Printing;
  */
 public class LatLongViewModel extends ViewModel implements Printable {
 
+    final static int updateEverySeconds = 10; // TODO: this should be 300 or more in production
     protected MutableLiveData<Double> mLatitude = new MutableLiveData<Double>();
     protected MutableLiveData<Double> mLongitude = new MutableLiveData<Double>();
     protected MutableLiveData<String> mStatusText = new MutableLiveData<String>();
@@ -41,9 +52,12 @@ public class LatLongViewModel extends ViewModel implements Printable {
 
     Consumer<Location> locationConsumer;
 
-    LocationListener locationListener;
-
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'[R]'HH:mm");
+
+    FusedLocationProviderClient locationProviderClient;
+
+    OnSuccessListener<Location> locationListener;
+    OnFailureListener locationErrorListener;
 
 
     Executor executor;
@@ -55,44 +69,47 @@ public class LatLongViewModel extends ViewModel implements Printable {
 
         executor = context.getMainExecutor();
 
+        locationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+
         locationConsumer = new Consumer<Location>() {
             @Override
             public void accept(Location location) {
                 setLocation(location);
-                mStatusText.setValue(String.format(location.getProvider() + " " + LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME)));
+                String statusText = location.getProvider() + " " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+                mStatusText.setValue(statusText);
             }
         };
 
-        locationListener = new LocationListener() {
+        locationListener = new OnSuccessListener<Location>() {
             @Override
-            public void onLocationChanged(Location location) {
-                setLocation(location);
-                mStatusText.setValue(String.format(location.getProvider() + " " + LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME)));
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-                mStatusText.setValue("Status Changed: " + String.valueOf(status));
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-                mStatusText.setValue("Provider Enabled: " + provider);
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-                mStatusText.setValue("Provider Disabled: " + provider);
+            public void onSuccess(Location location) {
+                locationConsumer.accept(location);
             }
         };
 
+        locationErrorListener = new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                mStatusText.setValue(String.format("Getting location failed: " + LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME)));
+            }
+        };
 
+        Handler handler = new Handler();
+        Runnable autoUpdateTask = new Runnable() {
+            @Override
+            public void run() {
+                updateLocation();
+                // Repeat this task again
+                handler.postDelayed(this, updateEverySeconds * 1000);
+            }
+        };
 
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            handler.postDelayed(autoUpdateTask, updateEverySeconds * 1000);
             context.startActivity(settingsIntent);
         } else {
-            updateLocation();
+            handler.post(autoUpdateTask);
         }
     }
 
@@ -105,15 +122,13 @@ public class LatLongViewModel extends ViewModel implements Printable {
             locationManager.getCurrentLocation(locationManager.GPS_PROVIDER, null, executor, locationConsumer);
         } else {
             try {
-                locationManager.requestSingleUpdate(LocationManager.FUSED_PROVIDER, locationListener, (Looper) null);
-                // TODO: consider going back to the below (makes indoor testing difficult)
-                // locationManager.requestSingleUpdate(locationManager.GPS_PROVIDER, locationListener, (Looper) null);
+                Task<Location> location = locationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, (CancellationToken) null);
+                location.addOnSuccessListener(locationListener);
+                location.addOnFailureListener(locationErrorListener);
             }catch (SecurityException e) {
                 mStatusText.setValue("missing permission");
             }
         }
-
-
     }
 
     public void setLocation(Location location) {
