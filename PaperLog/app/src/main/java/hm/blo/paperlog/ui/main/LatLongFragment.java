@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import hm.blo.paperlog.R;
 import hm.blo.paperlog.databinding.LatLongFragmentBinding;
+import hm.blo.paperlog.model.LocationState;
 
 /**
  * Fragment displaying Latitude/Longitude coordinate information based on the device's GPS.
@@ -51,8 +52,6 @@ public class LatLongFragment extends Fragment {
             }
         };
 
-        mViewModel.mLatitude.setValue(0.0);
-        mViewModel.mLongitude.setValue(0.0);
         mViewModel.getLatitude().observe(getViewLifecycleOwner(), latLongObserver);
         mViewModel.getLongitude().observe(getViewLifecycleOwner(), latLongObserver);
 

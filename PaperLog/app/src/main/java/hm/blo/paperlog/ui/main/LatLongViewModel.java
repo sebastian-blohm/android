@@ -35,6 +35,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 
+import hm.blo.paperlog.model.LocationState;
 import hm.blo.paperlog.model.Printable;
 import hm.blo.paperlog.model.Printing;
 
@@ -44,8 +45,8 @@ import hm.blo.paperlog.model.Printing;
 public class LatLongViewModel extends ViewModel implements Printable {
 
     final static int updateEverySeconds = 10; // TODO: this should be 300 or more in production
-    protected MutableLiveData<Double> mLatitude = new MutableLiveData<Double>();
-    protected MutableLiveData<Double> mLongitude = new MutableLiveData<Double>();
+    protected LocationState locationState = LocationState.LocationStateSingleton();
+
     protected MutableLiveData<String> mStatusText = new MutableLiveData<String>();
 
     LocationManager locationManager;
@@ -74,7 +75,7 @@ public class LatLongViewModel extends ViewModel implements Printable {
         locationConsumer = new Consumer<Location>() {
             @Override
             public void accept(Location location) {
-                setLocation(location);
+                locationState.setLocation(location);
                 String statusText = location.getProvider() + " " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
                 mStatusText.setValue(statusText);
             }
@@ -131,43 +132,20 @@ public class LatLongViewModel extends ViewModel implements Printable {
         }
     }
 
-    public void setLocation(Location location) {
-        mLatitude.setValue(location.getLatitude());
-        mLongitude.setValue(location.getLongitude());
-    }
 
-    protected String valueToString(){
-        if (mLongitude == null || mLatitude == null) {
-            return "null";
-        }
-        double lat = mLatitude.getValue();
-        double longV = mLongitude.getValue();
-
-        int latDegree = (int)Math.floor(lat);
-        double latMinutes = (lat - latDegree) * 60;
-        double latSeconds = (latMinutes - Math.floor(latMinutes)) * 60;
-        char latDirection = lat >= 0 ? 'N' : 'S';
-
-        int longDegree = (int)Math.floor(longV);
-        double longMinutes = (longV - longDegree) * 60;
-        double longSeconds = (longMinutes - Math.floor(longMinutes)) * 60;
-        char longDirection = longV >= 0 ? 'E' : 'W';
-
-        return String.format("%02d°%02.0f'%01.1f\" %c, %03d°%02.0f'%01.1f\" %c",latDegree, latMinutes, latSeconds, latDirection, longDegree, longMinutes, longSeconds, longDirection);
-    }
 
     public String asUiString() {
-        String valueString = this.valueToString();
+        String valueString = this.locationState.latestLocationToString();
         return String.format("%s", valueString);
     }
 
 
     public MutableLiveData<Double> getLatitude() {
-        return mLatitude;
+        return this.locationState.getLatitude();
     }
 
     public MutableLiveData<Double> getLongitude() {
-        return mLongitude;
+        return this.locationState.getLongitude();
     }
 
     public MutableLiveData<String> getStatusText() {
@@ -177,7 +155,7 @@ public class LatLongViewModel extends ViewModel implements Printable {
     @Override
     public String getPrintString() {
         String date = formatter.format(LocalDateTime.now());
-        return date + "\n" + this.valueToString();
+        return date + "\n" + this.locationState.latestLocationToString();
     }
 
     @Override

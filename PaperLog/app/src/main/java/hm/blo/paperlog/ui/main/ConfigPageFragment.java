@@ -29,7 +29,6 @@ public class ConfigPageFragment extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment ConfigPageFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ConfigPageFragment newInstance() {
         ConfigPageFragment fragment = new ConfigPageFragment();
         Bundle args = new Bundle();

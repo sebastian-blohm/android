@@ -2,6 +2,7 @@
     <string name="app_name">PaperLog</string>
     <string name="tab_text_1">Trip</string>
     <string name="tab_text_2">Config</string>
+    <string name="tab_text_3">Waypoints</string>
     <!-- TODO: Remove or change this placeholder text -->
 
     <!-- define your attribute name and type -->
