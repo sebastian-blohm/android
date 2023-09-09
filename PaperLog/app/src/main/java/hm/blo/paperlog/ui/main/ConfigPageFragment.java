@@ -2,6 +2,7 @@ package hm.blo.paperlog.ui.main;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -19,6 +20,10 @@ import hm.blo.paperlog.model.Printing;
  * create an instance of this fragment.
  */
 public class ConfigPageFragment extends Fragment {
+
+    final static String KEY_Printer_Name = "PrinterName";
+
+    private String printerName;
 
     public ConfigPageFragment() {
         // Required empty public constructor
@@ -59,6 +64,16 @@ public class ConfigPageFragment extends Fragment {
                 Printing.browseBluetoothDevice(view.getContext(), (name) -> {textViewPrinterName.setText(name);});
             }
         });
+
+        if (savedInstanceState != null) {
+            printerName = savedInstanceState.getString(KEY_Printer_Name);
+            if (printerName != null) {
+                if (Printing.TryLoadPrinterByName(printerName)) {
+                    textViewPrinterName.setText(printerName);
+                }
+            }
+        }
+
 //        button = (Button) findViewById(R.id.button_bluetooth);
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -68,5 +83,13 @@ public class ConfigPageFragment extends Fragment {
 //        });
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (this.printerName != null) {
+            outState.putString(KEY_Printer_Name, printerName);
+        }
     }
 }

@@ -44,7 +44,7 @@ import hm.blo.paperlog.model.Printing;
  */
 public class LatLongViewModel extends ViewModel implements Printable {
 
-    final static int updateEverySeconds = 10; // TODO: this should be 300 or more in production
+    final static int updateEverySeconds = 30; // TODO: this should be 30 or more in production
     protected LocationState locationState = LocationState.LocationStateSingleton();
 
     protected MutableLiveData<String> mStatusText = new MutableLiveData<String>();
@@ -63,9 +63,11 @@ public class LatLongViewModel extends ViewModel implements Printable {
 
     Executor executor;
 
-    public void initialize(Context context) {
+    public LatLongViewModel() {
         Printing.addPrintable(this);
+    }
 
+    public void initialize(Context context) {
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         executor = context.getMainExecutor();

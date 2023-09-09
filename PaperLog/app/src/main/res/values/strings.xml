@@ -11,6 +11,8 @@
     <attr name="increment" format="float|reference" />
     <attr name="initial" format="float|reference" />
     <attr name="print_template" format="string|reference" />
+    <attr name="name" format="string|reference" />
+    <attr name="position" format="string|reference" />
 
     <!-- now define which arguments your fragment is gonna have (can be more then one) -->
     <!-- the convention is "FragmentClassName_MembersInjector" -->
@@ -20,7 +22,11 @@
         <attr name="increment" />
         <attr name="initial" />
         <attr name="print_template" />
+    </declare-styleable>
 
+    <declare-styleable name="WayPointFragment_MembersInjector">
+        <attr name="name" />
+        <attr name="position" />
     </declare-styleable>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

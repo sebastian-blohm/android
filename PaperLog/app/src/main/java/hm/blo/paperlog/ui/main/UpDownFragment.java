@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import hm.blo.paperlog.R;
 import hm.blo.paperlog.databinding.FragmentUpDownBinding;
+import hm.blo.paperlog.model.Printing;
 
 /**
  * A fragment displaying log data.
@@ -107,7 +108,14 @@ public class UpDownFragment extends Fragment implements GestureDetector.OnGestur
                 break;
         }
 
-        upDownViewModel.initialize(mParamDatatype, mParamUiTemplate, Double.parseDouble(mParamIncrement), Double.parseDouble(mParamInitial), mParamPrintTemplate);
+        boolean restored = false;
+        if (savedInstanceState != null) {
+            restored |= upDownViewModel.fromBundle(savedInstanceState, "UpDownFragment" + this.getId());
+        }
+
+        if (!restored) {
+            upDownViewModel.initialize(mParamDatatype, mParamUiTemplate, Double.parseDouble(mParamIncrement), Double.parseDouble(mParamInitial), mParamPrintTemplate);
+        }
     }
 
     // following https://stackoverflow.com/questions/8641575/custom-attributes-in-android-fragments

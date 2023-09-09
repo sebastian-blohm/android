@@ -110,10 +110,16 @@ public class Printing {
 
         if (bluetoothDevicesList != null) {
             final String[] items = new String[bluetoothDevicesList.length + 1];
-            items[0] = "Default printer";
+            items[0] = "No printer";
             int i = 0;
-            for (BluetoothConnection device : bluetoothDevicesList) {
-                items[++i] = device.getDevice().getName();
+            try {
+                for (BluetoothConnection device : bluetoothDevicesList) {
+                    items[++i] = device.getDevice().getName();
+                }
+            } catch (SecurityException e)
+            {
+                // getName requires permission, likely this is thrown when not granted
+                items[1] = "Permission required";
             }
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
@@ -137,5 +143,24 @@ public class Printing {
             alert.show();
 
         }
+    }
+
+    public static boolean TryLoadPrinterByName(String printerName) {
+        final BluetoothConnection[] bluetoothDevicesList = (new BluetoothPrintersConnections()).getList();
+        for (BluetoothConnection device : bluetoothDevicesList) {
+            try {
+                if (device.getDevice().getName().equals(printerName)) {
+                    selectedDevice = device;
+                    return true;
+                }
+            } catch (SecurityException e)
+            {
+                // getName requires permission, likely this is thrown when not granted
+                return false;
+            }
+
+        }
+
+        return false;
     }
 }

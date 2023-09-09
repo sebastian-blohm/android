@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.WaypointPageFragment">
     <ScrollView
         android:layout_width="match_parent"
@@ -11,19 +12,142 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/plan_item_container">
+
+           <!-- <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.NavPaneIoFragment"
+                android:id="@+id/fileio"
+                app:name="File IO Controls"/>
 
             <androidx.fragment.app.FragmentContainerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:name="hm.blo.paperlog.ui.main.WayPointFragment"
-                android:id="@+id/waypoint01" />
+                android:id="@+id/waypoint00"
+                app:name="Default Waypoint"/> -->
 
             <androidx.fragment.app.FragmentContainerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:name="hm.blo.paperlog.ui.main.WayPointFragment"
-                android:id="@+id/waypoint02" />
+                android:id="@+id/waypoint01"
+                app:name="Palma"
+                app:position="39°33,50'N,002°38,00'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint15"
+                app:name="[B]Cala Blava"
+                app:position="39°28,50'N,002°43,50'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint02"
+                app:name="[B]Cabrera"
+                app:position="39°09,30'N,002°55,60'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint03"
+                app:name="La Rapita"
+                app:position="39°21,70'N,002°57,40'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint04"
+                app:name="[IB]Cala Figuera de Santayi"
+                app:position="39°19,80'N,003°10,50'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint05"
+                app:name="[IB]Porto Colom"
+                app:position="39°24,80'N,003°16,10'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint06"
+                app:name="[IB]Porto Cristo"
+                app:position="39°32,10'N,003°20,40'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint08"
+                app:name="[IB] Cala Bona"
+                app:position="39°36,90'N,003°23,70'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint07"
+                app:name="[IB]Cala Ratjada"
+                app:position="39°42,50'N,003°27,80'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint09"
+                app:name="Ca'n Picafort"
+                app:position="39°46,10'N,003°09,50'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint10"
+                app:name="[IB]Pollensa"
+                app:position="39°54,10'N,003°05,10'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint11"
+                app:name="[B]Cabo de Formentor"
+                app:position="39°57,70'N,003°12,80'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint12"
+                app:name="[IB]Soller"
+                app:position="39°47,90'N,002°41,20'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint13"
+                app:name="[B]Dragonera"
+                app:position="39°35,30'N,002°20,20'E"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="hm.blo.paperlog.ui.main.WayPointFragment"
+                android:id="@+id/waypoint14"
+                app:name="[IB]Andraitx"
+                app:position="39°32,50'N,002°22,60'E"/>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
