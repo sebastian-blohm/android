@@ -84,7 +84,7 @@ public class WayPointViewModel extends ViewModel implements Printable {
             // double distance = WayPointFragment.DistanceInNauticalMiles(pickerLat, pickerLong, location.getLatitude(), location.getLongitude());
             // double bearing = WayPointFragment.BearingDegrees(location.getLatitude(), location.getLongitude(), pickerLat, pickerLong);
             float[] distanceAndBearing = new float[2];
-            Location.distanceBetween(pickerLat, pickerLong, location.getLatitude(), location.getLongitude(), distanceAndBearing);
+            Location.distanceBetween(location.getLatitude(), location.getLongitude(), pickerLat, pickerLong, distanceAndBearing);
             if (distanceAndBearing[1] < 0) {
                 distanceAndBearing[1] += 360.0;
             }

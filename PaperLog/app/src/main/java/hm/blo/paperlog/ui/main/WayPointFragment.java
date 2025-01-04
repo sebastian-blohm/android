@@ -488,7 +488,7 @@ public class WayPointFragment extends Fragment implements TabLayout.OnTabSelecte
         double theta = Math.atan2(y, x);
         double bearing = (theta/TO_RADIAN + 360); // in degrees
         while (bearing >= 360.0) bearing -= 360.0;
-        while (bearing < 0.005) bearing += 360.0;
+        while (bearing < -0.005) bearing += 360.0;
 
         return bearing;
     }
